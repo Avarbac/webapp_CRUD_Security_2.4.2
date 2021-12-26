@@ -19,7 +19,7 @@ public class UserDAO {
 
     @SuppressWarnings("unchecked")
     public List<User> getAllUsers() {
-        return manager.createQuery("FROM User")
+        return manager.createQuery("FROM User", User.class)
                 .getResultList();
     }
 
@@ -27,9 +27,8 @@ public class UserDAO {
         manager.persist(user);
     }
 
-    public void deleteUser(User user) {
-        User deletedUser = manager.find(User.class, user.getId());
-        manager.remove(deletedUser);
+    public void deleteUser(int id) {
+        manager.remove(getUserById(id));
     }
 
     public void updateUser(User user, int id) {

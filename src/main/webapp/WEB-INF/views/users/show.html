@@ -6,9 +6,8 @@
 </head>
 <body>
 <div th:text="${user.getName()}">VALUE</div>
-<div th:text="${user.getLastName()}">VALUE</div>
+<div th:text="${user.getSurname()}">VALUE</div>
 <div th:text="${user.getAge()}">VALUE</div>
-<div th:text="${user.getGender()}">VALUE</div>
 <br>
 <form th:method="GET" th:action="@{/{id}/edit(id=${user.getId()})}">
     <input type="submit" value="Edit User">

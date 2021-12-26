@@ -23,7 +23,7 @@ public class UsersController {
     @GetMapping(value = "/")
     public String printAllUsers(Model model) {
         model.addAttribute("users", userDAO.getAllUsers());
-        return "users//index";
+        return "users/index";
     }
 
     @Transactional
@@ -34,16 +34,15 @@ public class UsersController {
     }
 
     @GetMapping("/new")
-    public String showNewUser(@ModelAttribute("newUser") User user) {
+    public String showNewUser(@ModelAttribute("user") User user) {
         return "users/new";
-
     }
 
     @Transactional
-    @PostMapping
+    @PostMapping()
     public String createUser(@ModelAttribute("newUser") User user) {
         userDAO.saveUser(user);
-        return "redirect:/users";
+        return "redirect:/users/";
     }
 
     @Transactional
@@ -57,13 +56,13 @@ public class UsersController {
     @PatchMapping("/{id}")
     public String updateUser(@ModelAttribute("user") User user, @PathVariable("id") int id) {
         userDAO.updateUser(user, id);
-        return "redirect:/users";
+        return "redirect:/users/";
     }
 
     @Transactional
     @DeleteMapping("/{id}")
-    public String deleteUser(@ModelAttribute("user") User user) {
-        userDAO.deleteUser(user);
-        return "redirect:/users";
+    public String deleteUser(@PathVariable("id") int id) {
+        userDAO.deleteUser(id);
+        return "redirect:/users/";
     }
 }
