@@ -1,15 +1,22 @@
 package org.example.models;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name="users")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name="name")
     private String name;
@@ -20,12 +27,27 @@ public class User {
     @Column(name="surname")
     private String surname;
 
-    public User() {}
+    private String password;
 
-    public User(String name, int age, String surname) {
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="role_id")
+    )
+    private Set<Role> roles;
+
+
+    public User(String name, int age, String surname, String password, Set<Role> roles) {
         this.name = name;
         this.age = age;
         this.surname = surname;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    public User() {
+
     }
 
     public String getName() {
@@ -52,12 +74,24 @@ public class User {
         this.surname = surname;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override
@@ -67,5 +101,40 @@ public class User {
                 ", age=" + age +
                 ", surname='" + surname + '\'' +
                 '}';
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getRole())).collect(Collectors.toList());
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return name;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

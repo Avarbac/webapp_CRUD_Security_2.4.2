@@ -30,15 +30,17 @@
 </head>
 <body>
 <h1>ALL USERS</h1>
-<a th:href="@{/users/new}"> Add new user </a>
+<a th:href="@{/admin/add_user}"> Add new user </a>
+<br>
+<a th:href="@{/logout}"> Exit </a>
 <br>
 <br>
 <table border="1">
     <tr>
-        <th th:width="50">UserId</th>
         <th th:width="120">Name</th>
         <th th:width="120">Surname</th>
         <th th:width="50">Age</th>
+        <th th:width="50">Role</th>
         <th th:width="50">Edit</th>
         <th th:width="50">Delete</th>
     </tr>
@@ -48,12 +50,17 @@
         <td th:utext="${user.surname}">Surname</td>
         <td th:utext="${user.age}">Age</td>
         <td>
-            <form th:action="@{/users/{id}/edit(id=${user.getId()})}">
+            <div th:each="role : ${user.getRoles()}">
+                <p th:text="${role.getRole()}"></p>
+            </div>
+        </td>
+        <td>
+            <form th:action="@{/admin/{id}/edit(id=${user.getId()})}">
                 <input type="submit" class="buttonEdit" value="Edit"/>
             </form>
         </td>
         <td>
-            <form th:method="DELETE" th:action="@{/users/{id}(id=${user.getId()})}">
+            <form th:method="DELETE" th:action="@{/admin/{id}(id=${user.getId()})}">
                 <input type="submit" class="buttonDelete" value="Delete"/>
             </form>
         </td>

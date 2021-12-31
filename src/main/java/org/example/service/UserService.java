@@ -1,12 +1,12 @@
-package org.example.dao;
+package org.example.service;
 
 import org.example.models.User;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Repository
-public interface UserDAO {
+@Service
+public interface UserService {
 
     User getUserById(Long id);
 

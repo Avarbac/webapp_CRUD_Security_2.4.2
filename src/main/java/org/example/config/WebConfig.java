@@ -52,20 +52,4 @@ public class WebConfig implements WebMvcConfigurer {
         resolver.setTemplateEngine(templateEngine());
         registry.viewResolver(resolver);
     }
-
-//    @Bean
-//    public DataSource dataSource() {
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setDriverClassName("driver=com.mysql.cj.jdbc.Driver");
-//        dataSource.setUsername("root");
-//        dataSource.setPassword("root");
-//        dataSource.setUrl("jdbc:mysql://localhost:3306/mydbtest?verifyServerCertificate=false&useSSL=false&requireSSL=false&useLegacyDatetimeCode=false&amp&serverTimezone=UTC"));
-//
-//        return dataSource;
-//    }
-//
-//    @Bean
-//    public JdbcTemplate jdbcTemplate() {
-//        return new JdbcTemplate(dataSource());
-//    }
 }
