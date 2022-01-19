@@ -63,13 +63,15 @@ public class AdminsController {
                              @PathVariable("id") Long id,
                              @RequestParam(value = "nameRoles") String[] nameRoles) {
         user.setRoles(roleService.getSetOfRoles(nameRoles));
-        userService.updateUser(userService.getUserById(id));
+        User userToUpdate = user;
+        userService.updateUser(userToUpdate);
         return "redirect:/admin";
     }
 
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
-        userService.deleteUser(id);
+        User user = userService.getUserById(id);
+        userService.deleteUser(user);
         return "redirect:/admin";
     }
 
