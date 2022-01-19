@@ -24,7 +24,6 @@ public class AdminsController {
         this.roleService = roleService;
     }
 
-    @Transactional
     @GetMapping(value = "")
     public String printAllUsers(Model model) {
         model.addAttribute("users", userService.getAllUsers());
@@ -44,7 +43,6 @@ public class AdminsController {
         return "admin/add_user";
     }
 
-    @Transactional
     @PostMapping("")
     public String addUser(@ModelAttribute("addUser") User user,
                           @RequestParam(value = "nameRoles") String[] nameRoles) {
@@ -60,17 +58,15 @@ public class AdminsController {
         return "admin/edit";
     }
 
-    @Transactional
     @PatchMapping("/{id}")
     public String updateUser(@ModelAttribute("user") User user,
                              @PathVariable("id") Long id,
                              @RequestParam(value = "nameRoles") String[] nameRoles) {
         user.setRoles(roleService.getSetOfRoles(nameRoles));
-        userService.updateUser(user, id);
+        userService.updateUser(userService.getUserById(id));
         return "redirect:/admin";
     }
 
-    @Transactional
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
